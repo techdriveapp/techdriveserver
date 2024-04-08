@@ -2,7 +2,7 @@ const userScima = require("../modal/userform");
 const byct = require("bcrypt");
 const generateJwtToken = require("../Config/GenerateJwtToken");
 
-const Login = async (req, res) => {
+module.exports = Login = async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);
   try {
@@ -32,5 +32,3 @@ const Login = async (req, res) => {
       .json({ message: "Login internal server error", error: error.message });
   }
 };
-
-module.exports = Login;

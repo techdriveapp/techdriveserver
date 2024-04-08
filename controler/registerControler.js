@@ -2,7 +2,7 @@ const userScima = require("../modal/userform");
 const byct = require("bcrypt");
 const generateJwtToken = require("../Config/GenerateJwtToken");
 
-const register = async (req, res) => {
+module.exports = register = async (req, res) => {
   try {
     console.log("ok", req.body);
     const { username, number, email, password } = req.body;
@@ -42,4 +42,4 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = register;
+
