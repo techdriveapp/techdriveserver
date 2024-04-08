@@ -19,7 +19,7 @@ const addMissingData = async (req, res) => {
       imagetwo,
       prize,
     } = req.body;
-    const missingData = new MissingData({
+    const missingData = await MissingData.create({
       userId: userId,
       name,
       age,
@@ -35,7 +35,7 @@ const addMissingData = async (req, res) => {
       imagetwo,
       prize,
     });
-    await missingData.save();
+    // await missingData.save();
     res.status(200).json(missingData);
   } catch (error) {
     console.error("Error:", error.message);
