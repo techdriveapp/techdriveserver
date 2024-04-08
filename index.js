@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const Mongodb = require("./Config/Mongodb");
 const userRoute = require("./Routers/userRouters");
-const MissingDataRoute = require("./Routers/MissingDataRouter");
+const MissingdataRoute = require("./Routers/MissingRouter");
 
 dotenv.config();
 app.use(cors());
@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api", userRoute);
-app.use("/api", MissingDataRoute);
+app.use("/api", MissingdataRoute);
 
 app.listen(process.env.port || 5000, () => {
   console.log("server is running on port 5000");

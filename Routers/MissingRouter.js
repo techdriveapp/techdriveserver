@@ -4,7 +4,7 @@ const {
   addMissingData,
   getMissingData,
   getMissingUserIdData,
-} = require("../controler/MissingdataControler");
+} = require("../controler/MissingDataControler");
 const missingRoute = express.Router();
 
 missingRoute.use(express.json());
