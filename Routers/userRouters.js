@@ -8,6 +8,5 @@ userRoute.use(express.urlencoded({ extended: true }));
 
 userRoute.post("/register", register);
 userRoute.post("/Login", Login);
-// userRoute.get("/user/:userId", userData);
 
 module.exports = userRoute;
