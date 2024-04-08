@@ -1,13 +1,15 @@
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const Mongodb = require("./Config/Mongodb");
 const userRoute = require("./Routers/userRouters");
+const MissingDataRoute = require("./Routers/MissingDataRouter");
 
 dotenv.config();
 app.use(cors());
+Mongodb();
 
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(express.json());
@@ -18,15 +20,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api", userRoute);
-
-main().catch((err) => console.log("main error", err));
-
-async function main() {
-  await mongoose
-    .connect(process.env.URL_DataBas)
-    .then((res) => console.log("mongoss is conect "))
-    .catch((error) => console.log("mongoose cath error", error));
-}
+app.use("/api", MissingDataRoute);
 
 app.listen(process.env.port || 5000, () => {
   console.log("server is running on port 5000");
