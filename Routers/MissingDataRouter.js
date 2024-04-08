@@ -4,7 +4,7 @@ const {
   addMissingData,
   getMissingData,
   getMissingUserIdData,
-} = require("../Controler/MissingDataControler");
+} = require("../controler/MissingdataControler");
 const missingRoute = express.Router();
 
 missingRoute.use(express.json());
@@ -16,4 +16,3 @@ missingRoute.get("/getdata", Auth, getMissingData);
 missingRoute.get("/getdata/:userId", getMissingUserIdData);
 
 module.exports = missingRoute;
- 
