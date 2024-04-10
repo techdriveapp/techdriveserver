@@ -7,6 +7,7 @@ module.exports = Login = async (req, res) => {
   console.log(req.body);
   try {
     const userExgist = await userScima.findOne({ email: email });
+    console.log("userExgist:", userExgist);
     if (!userExgist) {
       return res.status(400).json({ message: "user not found" });
     }
@@ -19,9 +20,10 @@ module.exports = Login = async (req, res) => {
       Email: userExgist.email,
       id: userExgist._id,
     });
+    console.log("User name:", userExgist.username);
     res.status(200).json({
       message: ` Login Successful`,
-      username: userExgist.Name,
+      username: userExgist.username,
       token: token,
       userId: userExgist._id,
     });

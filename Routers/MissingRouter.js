@@ -4,6 +4,8 @@ const {
   addMissingData,
   getMissingData,
   getMissingUserIdData,
+  deleteMissingData,
+  updateMissingData,
 } = require("../controler/MissingDataControler");
 const missingRoute = express.Router();
 
@@ -11,8 +13,10 @@ missingRoute.use(express.json());
 missingRoute.use(express.urlencoded({ extended: true }));
 
 missingRoute.post("/create", Auth, addMissingData);
-missingRoute.get("/getdata", Auth, getMissingData);
+missingRoute.get("/getdata", getMissingData);
+missingRoute.delete("/delete/:id", Auth, deleteMissingData);
+missingRoute.put("/update/:id", Auth, updateMissingData);
 
-missingRoute.get("/getdata/:userId", getMissingUserIdData);
+missingRoute.get("/getdata/:userId", Auth, getMissingUserIdData);
 
 module.exports = missingRoute;
