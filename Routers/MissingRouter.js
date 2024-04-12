@@ -6,13 +6,22 @@ const {
   getMissingUserIdData,
   deleteMissingData,
   updateMissingData,
+  upload,
 } = require("../controler/MissingDataControler");
 const missingRoute = express.Router();
 
 missingRoute.use(express.json());
 missingRoute.use(express.urlencoded({ extended: true }));
 
-missingRoute.post("/create", Auth, addMissingData);
+missingRoute.post(
+  "/create",
+  Auth,
+  upload.fields([
+    { name: "imageone", maxCount: 1 },
+    { name: "imagetwo", maxCount: 1 },
+  ]),
+  addMissingData
+);
 missingRoute.get("/getdata", getMissingData);
 missingRoute.delete("/delete/:id", Auth, deleteMissingData);
 missingRoute.put("/update/:id", Auth, updateMissingData);

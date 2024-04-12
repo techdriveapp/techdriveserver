@@ -1,53 +1,54 @@
 const liveData = require("../modal/LiveData");
+const mongoose = require("mongoose");
+const multer = require("multer");
+const { uploadOnCloudinary } = require("../Utils/Cloudinary");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    return cb(null, "./public/images");
+  },
+  filename: function (req, file, cb) {
+    return cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 const addLiveData = async (req, res) => {
-  try{
+  console.log("req.body", req.body);
+  console.log("req.file", req.files);
+  try {
     console.log("req.body", req.body);
-    const {
-        name,
-        age,
-        address,
-        hight,
-        sex,
-        holiya,
-        date,
-        time,
-        place,
-        others,
-        imageone,
-        imagetwo,
-        prize,
-    } = req.body;
+    const { name, age, address, date, others, prize, showAddArea } = req.body;
+    const localPath = req.files?.image[0].path;
+    console.log("localPath", localPath);
+    const image = await uploadOnCloudinary(localPath);
+    console.log("image", image);
     const newliveData = await liveData.create({
-        name,
-        age,
-        address,
-        hight,
-        sex,
-        holiya,
-        date,
-        time,
-        place,
-        others,
-        imageone,
-        imagetwo,
-        prize,  
+      name,
+      age,
+      address,
+      date,
+      others,
+      image: image.url,
+      prize,
+      showAddArea,
     });
     res.status(200).json(newliveData);
-  }catch (error) {
+  } catch (error) {
     console.error("Error:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
 const getLiveData = async (req, res) => {
- try{
-  const liveData = await liveData.find();
-  res.status(200).json(liveData);
- }catch (error){
-  console.error("Error:", error.message);
-  res.status(500).json({ error: "Internal server error" });
- }
+  try {
+    const liveDatas = await liveData.find();
+    res.status(200).json(liveDatas);
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 const deleteLiveData = async (req, res) => {
@@ -75,10 +76,11 @@ const updateLiveData = async (req, res) => {
     console.error("Error:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 module.exports = {
   addLiveData,
   getLiveData,
   deleteLiveData,
   updateLiveData,
+  upload,
 };

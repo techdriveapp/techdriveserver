@@ -9,7 +9,9 @@ module.exports = register = async (req, res) => {
     const userExist = await userScima.findOne({ email: email });
     console.log("User from DB:", userExist);
     if (userExist) {
-      return res.status(400).json({ message: "user already Exgist" });
+      return res
+        .status(400)
+        .json({ message: "user already exgist go to login page" });
     }
 
     const haspassword = await byct.hash(password, 10);
@@ -27,7 +29,7 @@ module.exports = register = async (req, res) => {
     });
 
     res.status(200).json({
-      message: ` User register successfully`,
+      message: ` register successfully`,
       success: true,
       token,
       username: newUser.username,

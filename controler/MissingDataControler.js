@@ -1,9 +1,25 @@
 const MissingData = require("../modal/MissingData");
 const mongoose = require("mongoose");
+const multer = require("multer");
+const { uploadOnCloudinary } = require("../Utils/Cloudinary");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    return cb(null, "./public/images");
+  },
+  filename: function (req, file, cb) {
+    return cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 const addMissingData = async (req, res) => {
+  console.log("req.body", req.body);
+  console.log("req.file", req.files);
   try {
     console.log("req.body", req.body);
+    console.log("req.file", req.files);
     const {
       userId,
       name,
@@ -16,10 +32,17 @@ const addMissingData = async (req, res) => {
       time,
       place,
       others,
-      imageone,
-      imagetwo,
       prize,
+      fathercontect,
+      localstatiocontect,
     } = req.body;
+
+    const localPath = req.files?.imageone[0].path;
+    const localPathtwo = req.files?.imagetwo[0].path;
+    console.log("localPath", localPath);
+    const imageone = await uploadOnCloudinary(localPath);
+    const imagetwo = await uploadOnCloudinary(localPathtwo);
+    console.log("image", imageone, imagetwo);
     const missingData = await MissingData.create({
       userId: userId,
       name,
@@ -32,14 +55,19 @@ const addMissingData = async (req, res) => {
       time,
       place,
       others,
-      imageone,
-      imagetwo,
+      imageone: imageone.url,
+      imagetwo: imagetwo.url,
       prize,
+      fathercontect,
+      localstatiocontect,
     });
+    console.log("missingData", missingData);
     // await missingData.save();
-    res.status(200).json(missingData);
+    res
+      .status(200)
+      .json({ message: "Data added successfully", missingData: missingData });
   } catch (error) {
-    console.error("Error:", error.message);
+    console.error("Error 2:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -84,7 +112,7 @@ const deleteMissingData = async (req, res) => {
     }
     res.status(200).json(missingData);
   } catch (error) {
-    console.error("Error1:", error.message);
+    console.error("Error:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -108,4 +136,5 @@ module.exports = {
   getMissingUserIdData,
   deleteMissingData,
   updateMissingData,
+  upload,
 };

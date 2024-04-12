@@ -9,7 +9,7 @@ module.exports = Login = async (req, res) => {
     const userExgist = await userScima.findOne({ email: email });
     console.log("userExgist:", userExgist);
     if (!userExgist) {
-      return res.status(400).json({ message: "user not found" });
+      return res.status(400).json({ message: "user not found go to register" });
     }
     const matchPassword = await byct.compare(password, userExgist.password);
     if (!matchPassword) {

@@ -51,6 +51,14 @@ const missingData = new Schema(
     prize: {
       type: Number,
     },
+    fathercontect: {
+      type: Number,
+      required: true,
+    },
+    localstatiocontect: {
+      type: Number,
+      required: true,
+    },
     userId: {
       type: Schema.Types.ObjectId,
       required: true,

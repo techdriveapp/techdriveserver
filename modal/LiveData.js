@@ -21,37 +21,30 @@ const liveData = new Schema({
   },
   hight: {
     type: Number,
-    required: true,
   },
   holiya: {
     type: String,
-    required: true,
   },
   time: {
     type: String,
-    required: true,
   },
   place: {
     type: String,
-    required: true,
   },
   others: {
     type: String,
     required: true,
   },
-  imageone: {
+  image: {
     type: String,
     required: true,
   },
-  imagetwo: {
-    type: String,
-    required: true,
-  },
+
   prize: {
     type: Number,
   },
-  userId: {
-    type: Schema.Types.ObjectId,
+ showAddArea: {
+    type: String,
     required: true,
   },
 });
