@@ -6,7 +6,7 @@ const { uploadOnCloudinary } = require("../Utils/Cloudinary");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     console.log("Destination function called");
-    return cb(null, "./public/temp");
+    return cb(null, "./Public/temp");
   },
   filename: function (req, file, cb) {
     console.log("Filename function called");
