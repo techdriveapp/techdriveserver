@@ -5,9 +5,10 @@ const { uploadOnCloudinary } = require("../Utils/Cloudinary");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    return cb(null, "./public/images");
+    return cb(null, "./public/temp");
   },
   filename: function (req, file, cb) {
+    console.log("file", file);
     return cb(null, file.originalname);
   },
 });
