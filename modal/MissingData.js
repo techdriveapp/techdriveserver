@@ -20,6 +20,10 @@ const missingData = new Schema(
       type: String,
       required: true,
     },
+    sex: {
+      type: String,
+      required: true,
+    },
     hight: {
       type: Number,
       required: true,
