@@ -4,11 +4,8 @@ const bodyparser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const Mongodb = require("./Config/Mongodb");
-const userRoute = require("./Routers/userRouters");
-const MissingdataRoute = require("./Routers/MissingRouter");
-const paymentRouter = require("./Routers/PaymentReciveRouter");
-const locationRouter = require("./Routers/LocationRouter");
-const liveDataRouter = require("./Routers/LiveDataRouter");
+const registerRouter = require("./Routers/user/RegisterRouter");
+const session = require("express-session");
 
 dotenv.config();
 app.use(cors());
@@ -21,12 +18,16 @@ app.use((req, res, next) => {
   console.log("HTTP Method-" + req.method + ", URL -" + req.url);
   next();
 });
+app.use(
+  session({
+    secret: "mySuperSecretKey12345",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
 
-app.use("/api", userRoute);
-app.use("/api", MissingdataRoute);
-app.use("/api", paymentRouter);
-app.use("/api", locationRouter);
-app.use("/api", liveDataRouter);
+app.use("/api", registerRouter);
 
 app.listen(process.env.port || 5000, () => {
   console.log("server is running on port 5000");
