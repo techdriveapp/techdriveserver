@@ -24,54 +24,6 @@ const verifyOtpAndSaveNumber = async (req, res) => {
       .status(400)
       .json({ message: "Mobile number is not available in session." });
   }
-
-  try {
-    const userMobileNumber = await UserMobileNumber.findOne({
-      mobileNumber: mobile,
-    });
-
-    if (!userMobileNumber) {
-      return res.status(404).json({ message: "Mobile number not found" });
-    }
-
-    // Verify OTP using Twilio Verify API
-    client.verify.v2
-      .services("VAeb312e88b3eaa985858c117121d9ade2")
-      .verificationChecks.create({ to: `+91${mobile}`, code: otp })
-      .then(async (verification_check) => {
-        if (verification_check.status !== "approved") {
-          return res.status(400).json({ message: "Incorrect OTP" });
-        }
-
-        // OTP is correct, mark as verified
-        userMobileNumber.verified = true;
-        await userMobileNumber.save();
-
-        // Check if the user profile exists
-        let userProfile = await UserProfile.findOne({ mobileNumber: mobile });
-
-        if (!userProfile) {
-          // Redirect to profile creation if not exist
-          return res
-            .status(200)
-            .json({ message: "OTP verified. Redirect to profile creation." });
-        }
-
-        // Clear the mobile number from session
-        req.session.mobile = mobile;
-
-        // Log the user in if profile exists
-        res
-          .status(200)
-          .json({ message: "Login successful, redirect to homepage." });
-      })
-      .catch((error) => {
-        console.error("Error verifying OTP:", error);
-        res.status(500).json({ error: "Failed to verify OTP" });
-      });
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
 };
 
 const userregister = async (req, res) => {
