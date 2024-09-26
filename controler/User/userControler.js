@@ -1,8 +1,5 @@
 const UserMobileNumber = require("../../modal/User/UserMobileNumberModel");
 const UserProfile = require("../../modal/User/UserProfile");
-const accountSid = "ACdd1c141ece7bc6c742ae878c3dc98214";
-const authToken = "5915985ddf3d5a7516727b461847bda4";
-const client = require("twilio")(accountSid, authToken);
 const byct = require("bcrypt");
 
 // Function to send OTP to the mobile number
@@ -10,28 +7,6 @@ const sendOtp = async (req, res) => {
   const { mobile } = req.body;
   try {
     // Send OTP using Twilio Verify API
-    client.verify.v2
-      .services("VAeb312e88b3eaa985858c117121d9ade2")
-      .verifications.create({ to: `+91${mobile}`, channel: "sms" })
-      .then(async (verification) => {
-        console.log("OTP sent, SID:", verification.sid);
-
-        // Save OTP request details in the database
-        const userMobileNumber = await UserMobileNumber.findOneAndUpdate(
-          { mobileNumber: mobile },
-          { otp: verification.sid, verified: false },
-          { upsert: true, new: true }
-        );
-
-        // Save the mobile number in session
-        req.session.mobile = mobile;
-
-        res.status(200).json({ message: "OTP sent successfully" });
-      })
-      .catch((error) => {
-        console.error("Error sending OTP:", error.message);
-        res.status(500).json({ error: "Failed to send OTP" });
-      });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
