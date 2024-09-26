@@ -6,6 +6,7 @@ const cors = require("cors");
 const Mongodb = require("./Config/Mongodb");
 const registerRouter = require("./Routers/user/RegisterRouter");
 const session = require("express-session");
+const contectRoute = require("./Routers/contacrRoute");
 
 dotenv.config();
 app.use(cors());
@@ -28,7 +29,7 @@ app.use(
 );
 
 app.use("/api", registerRouter);
-
+app.use("/api", contectRoute);
 app.listen(process.env.port || 5000, () => {
   console.log("server is running on port 5000");
 });
