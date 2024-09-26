@@ -4,8 +4,8 @@ const bodyparser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const Mongodb = require("./Config/Mongodb");
-const registerRouter = require("./Routers/user/RegisterRouter");
-const session = require("express-session");
+// const registerRouter = require("./Routers/user/RegisterRouter");
+// const session = require("express-session");
 const contectRoute = require("./Routers/contacrRoute");
 
 dotenv.config();
@@ -19,16 +19,16 @@ app.use((req, res, next) => {
   console.log("HTTP Method-" + req.method + ", URL -" + req.url);
   next();
 });
-app.use(
-  session({
-    secret: "mySuperSecretKey12345",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
+// app.use(
+//   session({
+//     secret: "mySuperSecretKey12345",
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false },
+//   })
+// );
 
-app.use("/api", registerRouter);
+// app.use("/api", registerRouter);
 app.use("/api", contectRoute);
 app.listen(process.env.port || 5000, () => {
   console.log("server is running on port 5000");
