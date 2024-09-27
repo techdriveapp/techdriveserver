@@ -19,16 +19,7 @@ app.use((req, res, next) => {
   console.log("HTTP Method-" + req.method + ", URL -" + req.url);
   next();
 });
-// app.use(
-//   session({
-//     secret: "mySuperSecretKey12345",
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { secure: false },
-//   })
-// );
 
-// app.use("/api", registerRouter);
 app.use("/api", contectRoute);
 app.listen(process.env.port || 5000, () => {
   console.log("server is running on port 5000");
